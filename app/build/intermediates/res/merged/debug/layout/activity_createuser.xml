@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Username" />
+
+    <EditText
+        android:id="@+id/edit_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/username"
+        android:layout_below="@+id/username"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_username"
+        android:layout_below="@+id/edit_username"
+        android:text="Password" />
+
+    <EditText
+        android:id="@+id/edit_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/password"
+        android:layout_below="@+id/password"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/confirm_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_password"
+        android:layout_below="@+id/edit_password"
+        android:text="Confirm Password" />
+
+    <EditText
+        android:id="@+id/edit_cfpwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/confirm_password"
+        android:layout_below="@+id/confirm_password"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/emailadrress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_cfpwd"
+        android:layout_below="@+id/edit_cfpwd"
+        android:text="Email Adress" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/emailadrress"
+        android:layout_below="@+id/emailadrress"
+        android:ems="10"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
+
+<!-- 
+    <TextView
+        android:id="@+id/text_cc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cc"
+        android:layout_below="@+id/gcc"
+        android:text="confirm code" />
+ -->
+
+<!--
+    <EditText
+        android:id="@+id/cc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/edit_cfpwd"
+        android:layout_below="@+id/text_cc"
+        android:ems="10"
+        android:inputType="textVisiblePassword" />
+  -->
+
+ <!--  
+ 		<Button
+        android:id="@+id/gcc"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/text_cc"
+        android:layout_below="@+id/email"
+        android:text="get confirm code" />
+   -->
+
+    <Button
+        android:id="@+id/ssubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email"
+        android:layout_marginTop="38dp"
+        android:layout_toRightOf="@+id/emailadrress"
+        android:text="submit" />
+
+</RelativeLayout>
+<!-- From: file:/D:/Users/android%20studio%20workspace/Diningwithme/app/src/main/res/layout/activity_createuser.xml -->

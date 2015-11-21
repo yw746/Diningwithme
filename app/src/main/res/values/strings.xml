@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Diningwithme</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="autocomplete_hint">Enter place name or address</string>
+    <string name="clear_text">Clear Text</string>
+
+</resources>
