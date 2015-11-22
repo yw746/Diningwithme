@@ -123,14 +123,31 @@ public class CreateUserActivity extends Activity {
 					    	personalInfo.put("userName",edit_username.getText().toString());
 					    	
 					    	//setup start information
-					    	Map<String, Object> startInfo_0 = new HashMap<String, Object>();
-					    	startInfo_0.put("date", 0);
-					    	startInfo_0.put("maximum_guests", 0);
-					    	startInfo_0.put("price", 0);
-					    	startInfo_0.put("dish", 0);
+							Map<String, Object> startdiningInfo = new HashMap<String, Object>();
+							startdiningInfo.put("date", 0);
+							startdiningInfo.put("maximum_guests", 0);
+							startdiningInfo.put("price", 0);
+							startdiningInfo.put("dishes", 0);
+							startdiningInfo.put("locationX", 0.0);
+							startdiningInfo.put("locationY", 0.0);
 
-					    	Map<String, Map<String, Object>> startInfo = new HashMap<String, Map<String, Object>>();
-					    	startInfo.put("initialize", startInfo_0);
+							Map<String, Object> startpartyInfo = new HashMap<String, Object>();
+							startpartyInfo.put("date", 0);
+							startpartyInfo.put("maximum_guests", 0);
+							startpartyInfo.put("price", 0);
+							startpartyInfo.put("dishes", 0);
+							startpartyInfo.put("locationX", 0.0);
+							startpartyInfo.put("locationY", 0.0);
+
+							Map<String, Map<String, Object>> diningHolder = new HashMap<String, Map<String, Object>>();
+							diningHolder.put("initial", startdiningInfo);
+
+							Map<String, Map<String, Object>> partyHolder = new HashMap<String, Map<String, Object>>();
+							partyHolder.put("initial", startpartyInfo);
+
+							Map<String, Object> startInfo = new HashMap<String, Object>();
+							startInfo.put("dining", diningHolder);
+							startInfo.put("party", partyHolder);
 					    	
 					    	// setup dining information
 					    	Map<String, Object> diningInfo = new HashMap<String, Object>();
