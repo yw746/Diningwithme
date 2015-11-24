@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -36,11 +37,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
@@ -65,7 +68,12 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// setup the title bar
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_main);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.title);
+
 
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map);
@@ -85,10 +93,8 @@ public class MainActivity extends FragmentActivity implements
 		// Retrieve the AutoCompleteTextView that will display Place suggestions.
 		mAutocompleteView = (AutoCompleteTextView)
 				findViewById(R.id.autocomplete_places);
-
 		// Register a listener that receives callbacks when a suggestion has been selected
 		mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-
 		// Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
 		// the entire world.
 		mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
@@ -131,7 +137,7 @@ public class MainActivity extends FragmentActivity implements
 		  });
 		
 		Button button1 = (Button)this.findViewById(R.id.dining);
-		Button button2 = (Button)this.findViewById(R.id.profile);
+		ImageButton button2 = (ImageButton)this.findViewById(R.id.profile);
 		Button button3 = (Button)this.findViewById(R.id.invitation);
 		
 		button1.setOnClickListener(new View.OnClickListener() {

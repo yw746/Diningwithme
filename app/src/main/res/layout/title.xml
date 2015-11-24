@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:layout_weight="0.5" />
+
+    <ImageButton
+        android:layout_width="10dp"
+        android:layout_height="30dp"
+        android:id="@+id/profile"
+        android:background="@drawable/profile_titlebar"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_weight="8"
+        android:paddingTop="0dp"
+        android:text="@string/app_name"
+        android:textColor="@drawable/white"
+        android:gravity="center"
+        android:textSize="20sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_weight="1.5"
+        android:paddingTop="1dp"
+        android:text=""
+        android:textSize="14sp" />
+
+</LinearLayout>
