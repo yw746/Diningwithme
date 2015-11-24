@@ -3,6 +3,8 @@
     <!-- From: file:/D:/Users/android%20studio%20workspace/Diningwithme/app/src/main/res/values/Maxnumber.xml -->
     <eat-comment/>
     <string-array name="numberarray">
+        <item>Choose a number</item>
+        <item>1</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -19,6 +21,7 @@
     <!-- From: file:/D:/Users/android%20studio%20workspace/Diningwithme/app/src/main/res/values/price.xml -->
     <eat-comment/>
     <string-array name="pricearray">
+        <item>Choose a price</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -35,6 +38,7 @@
     <!-- From: file:/D:/Users/android%20studio%20workspace/Diningwithme/app/src/main/res/values/Time.xml -->
     <eat-comment/>
     <string-array name="timearray">
+        <item>Choose a time</item>
         <item>1:00am</item>
         <item>2:00am</item>
         <item>3:00am</item>

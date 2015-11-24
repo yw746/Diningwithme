@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="timearray">
+        <item>Choose a time</item>
         <item>1:00am</item>
         <item>2:00am</item>
         <item>3:00am</item>

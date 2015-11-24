@@ -69,6 +69,11 @@
             android:name="com.aaaa.Diningwithme.PersoninfoActivity"
             android:label="Personal Information" >
         </activity>
+        <activity
+            android:name="com.aaaa.Diningwithme.LocationActivity"
+            android:label="Location Information"
+            android:theme="@style/Theme.AppCompat.Light" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

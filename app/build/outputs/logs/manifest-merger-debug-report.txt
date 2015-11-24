@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:2:1-68:12
+ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:2:1-73:12
 	package
 		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:3:5-36
 		INJECTED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml
@@ -167,7 +167,7 @@ ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidMa
 	android:name
 		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:13:22-76
 application
-ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:17:5-66:19
+ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:17:5-71:19
 MERGED from [com.google.android.gms:play-services:8.3.0] D:\Users\android studio workspace\Diningwithme\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\8.3.0\AndroidManifest.xml:19:5-20
 MERGED from [com.google.android.gms:play-services-ads:8.3.0] D:\Users\android studio workspace\Diningwithme\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.3.0\AndroidManifest.xml:24:5-32:19
 MERGED from [com.google.android.gms:play-services-basement:8.3.0] D:\Users\android studio workspace\Diningwithme\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.3.0\AndroidManifest.xml:20:5-24:19
@@ -367,6 +367,14 @@ ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidMa
 		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:64:13-49
 	android:name
 		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:63:13-47
+activity#com.aaaa.Diningwithme.LocationActivity
+ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:66:9-70:20
+	android:label
+		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:68:13-49
+	android:theme
+		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:69:13-57
+	android:name
+		ADDED from D:\Users\android studio workspace\Diningwithme\app\src\main\AndroidManifest.xml:67:13-45
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.android.gms:play-services-ads:8.3.0] D:\Users\android studio workspace\Diningwithme\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.3.0\AndroidManifest.xml:21:5-78
 MERGED from [com.google.android.gms:play-services-analytics:8.3.0] D:\Users\android studio workspace\Diningwithme\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.3.0\AndroidManifest.xml:22:5-79

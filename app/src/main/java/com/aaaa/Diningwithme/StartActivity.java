@@ -3,13 +3,16 @@ package com.aaaa.Diningwithme;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Button;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,8 +35,11 @@ public class StartActivity extends Activity {
 	private ArrayAdapter<String> adapter1;
 	private ArrayAdapter<String> adapter2;
 	private ArrayAdapter<String> adapter3;
-	
-	
+
+	private DatePicker dpToday=null;
+	private TimePicker tpNow=null;
+
+
 	private Button btnsubmit = null;
 	
 	@Override
@@ -45,29 +51,46 @@ public class StartActivity extends Activity {
 		final String[] number=getResources().getStringArray(R.array.numberarray);
 		final String[] price=getResources().getStringArray(R.array.pricearray);
 		
-		spintime=(Spinner)super.findViewById(R.id.time);
+		//spintime=(Spinner)super.findViewById(R.id.time);
 		spinnumber=(Spinner)super.findViewById(R.id.number);
 		spinprice=(Spinner)super.findViewById(R.id.price);
 		btnsubmit=(Button)super.findViewById(R.id.submit);
+
+		dpToday=(DatePicker)super.findViewById(R.id.today);
+
+
+
 		btnsubmit.setOnClickListener(new submitOnClickListener());
 		//set an adapter
-		adapter1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,time);
+		//adapter1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,time);
 		adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,number);
 		adapter3 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,price);
 		
 		//set a form for the adapter
-		adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		//set a topic
-		spintime.setPrompt("Choose a time");
-		spinnumber.setPrompt("Choose a number");
-		spinprice.setPrompt("Choose a price");
+		//spintime.setPrompt("Choose a time");
+		//spinnumber.setPrompt("Choose a number");
+		//spinprice.setPrompt("Choose a price");
 		//add the adapter to the spinner
-		spintime.setAdapter(adapter1);
+		//spintime.setAdapter(adapter1);
 		spinnumber.setAdapter(adapter2);
 		spinprice.setAdapter(adapter3);
+
+		Button location = (Button)this.findViewById(R.id.location);
+
+		location.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(StartActivity.this, LocationActivity.class));
+
+			}
+		});
 		
 		
         
@@ -85,17 +108,30 @@ public class StartActivity extends Activity {
 
 	private class submitOnClickListener implements OnClickListener{
 		public void onClick(View v){
-			String stime="";
+			//String stime="";
 			String snumber="";
 			String sprice="";
 			String sinfo="";
 			
-			stime=spintime.getSelectedItem().toString();
+			//stime=spintime.getSelectedItem().toString();
 			snumber=spinnumber.getSelectedItem().toString();
 			sprice=spinprice.getSelectedItem().toString();
-			sinfo="time:"+stime+"**"+"number:"+snumber+"**"+"price:"+sprice;
-			
-			Toast.makeText(getApplicationContext(), sinfo, Toast.LENGTH_SHORT).show();
+			sinfo="time:"+"**"+"number:"+snumber+"**"+"price:"+sprice;
+
+			int iYear=0;
+			int iMonth=0;
+			int iDay=0;
+			String sDate="";
+			iYear=dpToday.getYear();
+			iMonth=dpToday.getMonth()+1;
+			iDay=dpToday.getDayOfMonth();
+			sDate="date："+String.valueOf(iYear)+"year"+String.valueOf(iMonth)+"month"+String.valueOf(iDay)+"day";
+
+
+
+
+
+			Toast.makeText(getApplicationContext(), sinfo+sDate, Toast.LENGTH_SHORT).show();
 			finish();
 		}
 	}
