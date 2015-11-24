@@ -64,6 +64,11 @@
             android:name=".PersoninfoActivity"
             android:label="Personal Information" >
         </activity>
+        <activity
+            android:name=".LocationActivity"
+            android:label="Location Information"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
     </application>
 
 </manifest>

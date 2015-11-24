@@ -30,11 +30,10 @@
         android:id="@+id/button_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:text="@string/clear_text"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_below="@+id/autocomplete_places"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/autocomplete_places"
+        android:layout_alignRight="@+id/autocomplete_places" />
 
 
 
@@ -44,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="Party"
         android:layout_alignTop="@+id/dining"
-        android:layout_toRightOf="@+id/button_clear" />
+        android:layout_toLeftOf="@+id/button_clear" />
 
     <!--<Button
         android:id="@+id/profile"
@@ -60,10 +59,9 @@
         android:id="@+id/dining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="43dp"
         android:text="Dining"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/invitation" />
+        android:layout_alignLeft="@+id/autocomplete_places" />
 
     <Button
         android:id="@+id/invitation"
@@ -71,7 +69,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/dark"
         android:text="Start"
-        android:layout_alignBottom="@+id/application"
-        android:layout_alignRight="@+id/button_clear" />
+        android:layout_above="@+id/dining"
+        android:layout_toRightOf="@+id/dining" />
 
 </RelativeLayout>
