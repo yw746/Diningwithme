@@ -6,5 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="autocomplete_hint">Enter place name or address</string>
     <string name="clear_text">Clear Text</string>
+    <string name="submit">Submit</string>
+    <string name="location">Find the location</string>
+    <string name="choose_time">Choose a time</string>
 
 </resources>
