@@ -1,10 +1,16 @@
 package com.aaaa.Diningwithme;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -68,7 +74,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Firebase.setAndroidContext(this);
 		// setup the title bar
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_main);
@@ -116,26 +122,185 @@ public class MainActivity extends FragmentActivity implements
 		
 		//search for the user name
 		Firebase ref = new Firebase("https://diningwithme.firebaseio.com").child("KeyName");
-		ref.addListenerForSingleValueEvent(new ValueEventListener(){
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
-		      public void onDataChange(DataSnapshot snapshot) {
-		          HashMap user = snapshot.getValue(HashMap.class);
-				  Set set = user.entrySet();
-				  Iterator pp = set.iterator();
-				  while (pp.hasNext()){
-					  Map.Entry entry = (Map.Entry)pp.next();
-					  if (entry.getValue().equals(user_email)){
-						  user_name = entry.getKey().toString();
-						  break;
-					  }
-				  }
-		      }
-		      @Override
-		      public void onCancelled(FirebaseError firebaseError) {
-		          System.out.println("The read failed: " + firebaseError.getMessage());
-		      }
-		  });
-		
+			public void onDataChange(DataSnapshot snapshot) {
+				HashMap user = snapshot.getValue(HashMap.class);
+				Set set = user.entrySet();
+				Iterator pp = set.iterator();
+				while (pp.hasNext()) {
+					Map.Entry entry = (Map.Entry) pp.next();
+					if (entry.getValue().equals(user_email)) {
+						user_name = entry.getKey().toString();
+						break;
+					}
+				}
+			}
+
+			@Override
+			public void onCancelled(FirebaseError firebaseError) {
+				System.out.println("The read failed: " + firebaseError.getMessage());
+			}
+		});
+		// Mark all the available activities on google map
+		Firebase ref_user = new Firebase("https://diningwithme.firebaseio.com").child("Users");
+		ref_user.addChildEventListener(new ChildEventListener() {
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
+				//get all users in users
+					HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
+					HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
+					HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+
+					// go through all dining information in dining_info
+					Set set_d = dining_info.entrySet();
+					Iterator pp_d = set_d.iterator();
+					while (pp_d.hasNext()){
+						Map.Entry entry_d = (Map.Entry)pp_d.next();
+						Object dining_key = entry_d.getKey();
+						if (!dining_key.equals("initial")){
+							HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining_info.get(dining_key);
+
+							// check if the date is valid
+							SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+							try {
+								Date timeset = time_trans.parse(dining_key.toString());
+								Calendar time_set = Calendar.getInstance();
+								time_set.setTime(timeset);
+								Calendar time_now = new GregorianCalendar();
+								if (time_set.after(time_now)){
+									LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
+									mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
+											.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+								}
+							}
+							catch (Exception e){
+
+							}
+						}
+					}
+				}
+
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
+				//get all users in users
+				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
+				HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+
+				// go through all dining information in dining_info
+				Set set_d = dining_info.entrySet();
+				Iterator pp_d = set_d.iterator();
+				while (pp_d.hasNext()){
+					Map.Entry entry_d = (Map.Entry)pp_d.next();
+					Object dining_key = entry_d.getKey();
+					if (!dining_key.equals("initial")){
+						Object dining = dining_info.get(dining_key);
+						HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining;
+
+						// check if the date is valid
+						SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						try {
+							Date timeset = time_trans.parse(dining_key.toString());
+							Calendar time_set = Calendar.getInstance();
+							time_set.setTime(timeset);
+							Calendar time_now = new GregorianCalendar();
+							if (time_set.after(time_now)){
+								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
+								mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
+										.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+							}
+						}
+						catch (Exception e){
+
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
+				//get all users in users
+				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
+				HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+
+				// go through all dining information in dining_info
+				Set set_d = dining_info.entrySet();
+				Iterator pp_d = set_d.iterator();
+				while (pp_d.hasNext()){
+					Map.Entry entry_d = (Map.Entry)pp_d.next();
+					Object dining_key = entry_d.getKey();
+					if (!dining_key.equals("initial")){
+						Object dining = dining_info.get(dining_key);
+						HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining;
+
+						// check if the date is valid
+						SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						try {
+							Date timeset = time_trans.parse(dining_key.toString());
+							Calendar time_set = Calendar.getInstance();
+							time_set.setTime(timeset);
+							Calendar time_now = new GregorianCalendar();
+							if (time_set.after(time_now)){
+								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
+								mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
+										.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+							}
+						}
+						catch (Exception e){
+
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
+				//get all users in users
+				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
+				HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+
+				// go through all dining information in dining_info
+				Set set_d = dining_info.entrySet();
+				Iterator pp_d = set_d.iterator();
+				while (pp_d.hasNext()){
+					Map.Entry entry_d = (Map.Entry)pp_d.next();
+					Object dining_key = entry_d.getKey();
+					if (!dining_key.equals("initial")){
+						Object dining = dining_info.get(dining_key);
+						HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining;
+
+						// check if the date is valid
+						SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						try {
+							Date timeset = time_trans.parse(dining_key.toString());
+							Calendar time_set = Calendar.getInstance();
+							time_set.setTime(timeset);
+							Calendar time_now = new GregorianCalendar();
+							if (time_set.after(time_now)){
+								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
+								mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
+										.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+							}
+						}
+						catch (Exception e){
+
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onCancelled(FirebaseError firebaseError) {
+
+			}
+		});
 		Button button1 = (Button)this.findViewById(R.id.dining);
 		ImageButton button2 = (ImageButton)this.findViewById(R.id.profile);
 		Button button3 = (Button)this.findViewById(R.id.invitation);

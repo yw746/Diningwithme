@@ -1,5 +1,6 @@
 package com.aaaa.Diningwithme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -10,6 +11,7 @@ import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,12 +51,19 @@ public class LocationActivity extends AppCompatActivity implements
 
     private TextView mTopText;
 
+    //set static variable for longtitude and langtitude
+    static public double longti = 0;
+    static public double langti = 0;
+    //set temporary variable for longtitude and langtitude
+    private double longti_t = 0;
+    private double langti_t = 0;
 
     private LatLng location;
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
 
-
+    //set resultcode for intent
+    private int resultcode = 0;
 
 
     @Override
@@ -98,6 +107,21 @@ public class LocationActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 mAutocompleteView.setText("");
+            }
+        });
+        //initialize langti & longti, in order to make sure each time this activity setup, the value of them be 0
+        langti = 0;
+        longti = 0;
+
+        ImageButton save = (ImageButton)findViewById(R.id.location_save);
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //sent back marker's longtitude and langtitude
+                longti = longti_t;
+                langti = langti_t;
+                finish();
             }
         });
 
@@ -155,8 +179,11 @@ public class LocationActivity extends AppCompatActivity implements
                 mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                         .draggable(true));
-
+                // set a smaller camera
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                // set the longti_t and langti_t
+                longti_t = location.longitude;
+                langti_t = location.latitude;
             }
 
 
@@ -195,7 +222,9 @@ public class LocationActivity extends AppCompatActivity implements
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-        mTopText.setText("onMarkerDrag.  Current Position: " + marker.getPosition());
+        longti_t = marker.getPosition().longitude;
+        langti_t = marker.getPosition().latitude;
+        //mTopText.setText("onMarkerDrag.  Current Position: " + marker.getPosition());
     }
 }
 
