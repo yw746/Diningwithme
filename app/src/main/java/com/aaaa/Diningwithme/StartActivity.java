@@ -57,6 +57,9 @@ public class StartActivity extends Activity {
 		btnsubmit=(Button)super.findViewById(R.id.submit);
 		btnsubmit.setOnClickListener(new submitOnClickListener());
 		dpToday=(DatePicker)super.findViewById(R.id.today);
+		tpNow=(TimePicker)super.findViewById(R.id.now);
+
+		tpNow.setIs24HourView(true);
 		//set an adapter
 		//adapter1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,time);
 		adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,number);

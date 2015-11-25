@@ -30,10 +30,12 @@
         android:id="@+id/button_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/clear_text"
+        android:background="@drawable/ic_clear_black_24dp"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_alignTop="@+id/autocomplete_places"
-        android:layout_alignRight="@+id/autocomplete_places" />
+        android:layout_alignRight="@+id/autocomplete_places"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:alpha="0.3"/>
 
 
 
