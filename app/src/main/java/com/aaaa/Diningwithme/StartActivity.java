@@ -59,7 +59,7 @@ public class StartActivity extends Activity {
 		dpToday=(DatePicker)super.findViewById(R.id.today);
 		tpNow=(TimePicker)super.findViewById(R.id.now);
 
-		tpNow.setIs24HourView(true);
+
 		//set an adapter
 		//adapter1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,time);
 		adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,number);

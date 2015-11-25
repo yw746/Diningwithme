@@ -30,12 +30,12 @@
         android:id="@+id/button_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_clear_black_24dp"
+        android:background="@drawable/ic_cancel_black_24dp"
         style="?android:attr/borderlessButtonStyle"
         android:layout_alignRight="@+id/autocomplete_places"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
-        android:alpha="0.3"/>
+        android:layout_marginRight="5dp"
+        android:alpha="1"/>
 
 
 
@@ -44,8 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Party"
-        android:layout_alignTop="@+id/dining"
-        android:layout_toLeftOf="@+id/button_clear" />
+        android:layout_below="@+id/invitation"
+        android:layout_toRightOf="@+id/invitation" />
 
     <!--<Button
         android:id="@+id/profile"
