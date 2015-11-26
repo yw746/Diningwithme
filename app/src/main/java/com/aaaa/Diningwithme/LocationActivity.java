@@ -35,8 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by Lenovo-beater on 11/23/2015.
  */
 public class LocationActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
-        OnMarkerDragListener{
+        GoogleApiClient.OnConnectionFailedListener{
 
     protected GoogleApiClient mGoogleApiClient;
 
@@ -63,13 +62,13 @@ public class LocationActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_location);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.map1);
         mMap = mapFragment.getMap();
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.getUiSettings().setScrollGesturesEnabled(true);
 
-        mMap.setOnMarkerDragListener(this);
+
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
@@ -78,7 +77,7 @@ public class LocationActivity extends AppCompatActivity implements
 
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         mAutocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+                findViewById(R.id.autocomplete_places1);
 
         // Register a listener that receives callbacks when a suggestion has been selected
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
@@ -92,7 +91,7 @@ public class LocationActivity extends AppCompatActivity implements
         // Set up the 'clear text' button that clears the text in the autocomplete view
         Button clearButton = (Button) findViewById(R.id.button_clear);
 
-        mTopText = (TextView) findViewById(R.id.top_text);
+        //mTopText = (TextView) findViewById(R.id.top_text);
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,19 +182,6 @@ public class LocationActivity extends AppCompatActivity implements
 
 
 
-    @Override
-    public void onMarkerDragStart(Marker marker) {
-        mTopText.setText("onMarkerDragStart");
-    }
 
-    @Override
-    public void onMarkerDrag(Marker marker) {
-        mTopText.setText("onMarkerDragEnd");
-    }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-        mTopText.setText("onMarkerDrag.  Current Position: " + marker.getPosition());
-    }
 }
 

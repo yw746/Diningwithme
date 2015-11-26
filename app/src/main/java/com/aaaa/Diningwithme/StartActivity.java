@@ -57,7 +57,7 @@ public class StartActivity extends Activity {
 		btnsubmit=(Button)super.findViewById(R.id.submit);
 		btnsubmit.setOnClickListener(new submitOnClickListener());
 		dpToday=(DatePicker)super.findViewById(R.id.today);
-		tpNow=(TimePicker)super.findViewById(R.id.now);
+
 
 
 		//set an adapter
