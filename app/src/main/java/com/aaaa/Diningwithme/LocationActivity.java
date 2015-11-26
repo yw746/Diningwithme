@@ -72,7 +72,7 @@ public class LocationActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_location);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.map1);
         mMap = mapFragment.getMap();
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setRotateGesturesEnabled(true);
@@ -87,7 +87,7 @@ public class LocationActivity extends AppCompatActivity implements
 
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         mAutocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+                findViewById(R.id.autocomplete_places1);
 
         // Register a listener that receives callbacks when a suggestion has been selected
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
@@ -113,7 +113,7 @@ public class LocationActivity extends AppCompatActivity implements
         langti = 0;
         longti = 0;
 
-        ImageButton save = (ImageButton)findViewById(R.id.location_save);
+        Button save = (Button)findViewById(R.id.location_save);
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
