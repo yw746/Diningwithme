@@ -113,7 +113,7 @@ public class LocationActivity extends AppCompatActivity implements
         langti = 0;
         longti = 0;
 
-        ImageButton save = (ImageButton)findViewById(R.id.location_save);
+        Button save = (Button)findViewById(R.id.location_save);
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
