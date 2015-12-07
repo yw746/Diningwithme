@@ -123,10 +123,6 @@ public class MainActivity extends FragmentActivity implements
 		// Getting Current Location
 		Location lastlocation = locationManager.getLastKnownLocation(provider);
 
-		//initialize the current location
-		if (lastlocation != null){
-			drawMarker(lastlocation);
-		}
 
 
 
