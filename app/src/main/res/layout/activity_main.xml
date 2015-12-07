@@ -34,8 +34,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_alignRight="@+id/autocomplete_places"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="5dp"
-        android:alpha="1"/>
+        android:layout_marginRight="5dp" />
 
 
 
