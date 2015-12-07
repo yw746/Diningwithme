@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -90,6 +92,21 @@ public class MainActivity extends FragmentActivity implements
 
 		mMap.setOnMarkerClickListener(this);
 		mMap.setOnInfoWindowClickListener(this);
+
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
+
+		// Getting the name of the best provider
+		String provider = locationManager.GPS_PROVIDER;
+
+		// Getting Current Location
+		Location lastlocation = locationManager.getLastKnownLocation(provider);
+
+		//initialize the current location
+		drawMarker(lastlocation);
+
+
 
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.enableAutoManage(this, 0 /* clientId */, this)
@@ -400,8 +417,8 @@ public class MainActivity extends FragmentActivity implements
 			if (!location.equals(null)) {
 				//handleNewLocation(location)
 				LatLng latLng = new LatLng(location.latitude, location.longitude);
-				mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").snippet("Population: 2,074,200")
-						.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+				//mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").snippet("Population: 2,074,200")
+				//		.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 			}
@@ -410,6 +427,18 @@ public class MainActivity extends FragmentActivity implements
 			places.release();
 		}
 	};
+
+	private void drawMarker(Location location){
+		// Remove any existing markers on the map
+		mMap.clear();
+		LatLng currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
+		mMap.addMarker(new MarkerOptions()
+				.position(currentPosition)
+				.snippet("Lat:" + location.getLatitude() + "Lng:"+ location.getLongitude())
+				.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+				.title("ME"));
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
