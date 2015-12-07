@@ -104,7 +104,9 @@ public class MainActivity extends FragmentActivity implements
 		Location lastlocation = locationManager.getLastKnownLocation(provider);
 
 		//initialize the current location
-		drawMarker(lastlocation);
+		if (lastlocation != null){
+			drawMarker(lastlocation);
+		}
 
 
 
