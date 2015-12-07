@@ -90,6 +90,7 @@ public class MainActivity extends FragmentActivity implements
 		mMap.getUiSettings().setRotateGesturesEnabled(true);
 		mMap.getUiSettings().setScrollGesturesEnabled(true);
 
+		mMap.setMyLocationEnabled(true);
 		mMap.setOnMarkerClickListener(this);
 		mMap.setOnInfoWindowClickListener(this);
 
