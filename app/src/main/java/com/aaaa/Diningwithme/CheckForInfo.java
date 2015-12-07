@@ -1,5 +1,11 @@
 package com.aaaa.Diningwithme;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ScrollView;
+
+import com.firebase.client.Firebase;
+
 import java.util.Random;
 
 public class CheckForInfo {
@@ -24,5 +30,5 @@ public class CheckForInfo {
 	 public static String generateCf(){
 		 Random rand = new Random();
 		 return String.valueOf(rand.nextInt(10000000));
-	 }	 	
+	 }
 }

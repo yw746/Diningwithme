@@ -44,8 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Party"
-        android:layout_below="@+id/invitation"
-        android:layout_toRightOf="@+id/invitation" />
+        android:layout_alignTop="@+id/dining"
+        android:layout_toLeftOf="@+id/button_clear" />
 
     <!--<Button
         android:id="@+id/profile"
@@ -62,16 +62,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dining"
-        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="25dp"
+        android:layout_alignBottom="@+id/invitation"
         android:layout_alignLeft="@+id/autocomplete_places" />
 
     <Button
         android:id="@+id/invitation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@drawable/dark"
         android:text="Start"
-        android:layout_above="@+id/dining"
-        android:layout_toRightOf="@+id/dining" />
+        android:textColor="@drawable/white"
+        android:layout_marginBottom="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
