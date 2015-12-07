@@ -39,7 +39,8 @@ public class ProfileActivity extends Activity {
 		
 		Button setting = (Button)this.findViewById(R.id.setting);
 		setting.getBackground().setAlpha(00);
-		
+
+		// transfer to edit personal information
 		b_profile.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -49,7 +50,14 @@ public class ProfileActivity extends Activity {
 				
 			}
 		});
-		
+
+		// transfer to manager invitation
+		invitation.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(ProfileActivity.this,ManageInfo.class));
+			}
+		});
 		
 	}
 

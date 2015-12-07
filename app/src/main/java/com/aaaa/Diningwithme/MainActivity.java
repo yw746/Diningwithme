@@ -60,6 +60,8 @@ public class MainActivity extends FragmentActivity implements
 		GoogleApiClient.OnConnectionFailedListener,
 		GoogleMap.OnInfoWindowClickListener,
 		GoogleMap.OnMarkerClickListener {
+	//create a HashMap to store all the marker we set
+	static HashMap<String, HashMap<String, Marker>> markerHolder = new HashMap<String, HashMap<String, Marker>>();
 
 	protected GoogleApiClient mGoogleApiClient;
 
@@ -150,7 +152,11 @@ public class MainActivity extends FragmentActivity implements
 				mAutocompleteView.setText("");
 			}
 		});
-		
+
+		// setup transparency for button application
+		Button application = (Button)findViewById(R.id.application);
+		application.getBackground().setAlpha(170);
+
 		// setup the static variable, to identify user
 		Bundle bundle = this.getIntent().getExtras();
 		user_email = bundle.getString("email");
@@ -178,17 +184,20 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 		// Mark all the available activities on google map
-		Firebase ref_user = new Firebase("https://diningwithme.firebaseio.com").child("Users");
+		final Firebase ref_user = new Firebase("https://diningwithme.firebaseio.com").child("Users");
 		ref_user.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
 				//get all users in users
-					HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
-					HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
-					HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
+				HashMap<String, Object> start_info = (HashMap<String, Object>) user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>) start_info.get("dining");
 
-					// go through all dining information in dining_info
+				// create per_markerholder for each person
+				HashMap<String, Marker> per_markerholder = new HashMap<String, Marker>();
+
+				// one way to go through all dining information in dining_info
 					Set set_d = dining_info.entrySet();
 					Iterator pp_d = set_d.iterator();
 					while (pp_d.hasNext()){
@@ -206,8 +215,9 @@ public class MainActivity extends FragmentActivity implements
 								Calendar time_now = new GregorianCalendar();
 								if (time_set.after(time_now)){
 									LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
-									mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
+									Marker marker = mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
 											.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+									per_markerholder.put(dining_activity.get("date").toString(),marker);
 								}
 							}
 							catch (Exception e){
@@ -215,42 +225,55 @@ public class MainActivity extends FragmentActivity implements
 							}
 						}
 					}
-				}
+					markerHolder.put(dataSnapshot.getKey(),per_markerholder);
+			}
 
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
 				//get all users in users
 				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
-				HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
-				HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+				HashMap<String, Object> start_info = (HashMap<String, Object>) user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>) start_info.get("dining");
 
 				// go through all dining information in dining_info
 				Set set_d = dining_info.entrySet();
 				Iterator pp_d = set_d.iterator();
-				while (pp_d.hasNext()){
-					Map.Entry entry_d = (Map.Entry)pp_d.next();
+				while (pp_d.hasNext()) {
+					Map.Entry entry_d = (Map.Entry) pp_d.next();
 					Object dining_key = entry_d.getKey();
-					if (!dining_key.equals("initial")){
+					if (!dining_key.equals("initial")) {
 						Object dining = dining_info.get(dining_key);
-						HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining;
+						HashMap<String, Object> dining_activity = (HashMap<String, Object>) dining;
 
 						// check if the date is valid
-						SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						SimpleDateFormat time_trans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						try {
 							Date timeset = time_trans.parse(dining_key.toString());
 							Calendar time_set = Calendar.getInstance();
 							time_set.setTime(timeset);
 							Calendar time_now = new GregorianCalendar();
-							if (time_set.after(time_now)){
-								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
-								mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
+							// if time is valid and there are added dining, add markers
+							if (time_set.after(time_now) && !markerHolder.get(dataSnapshot.getKey()).containsKey(dining_key.toString())) {
+								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()), Double.parseDouble(dining_activity.get("locationY").toString()));
+								Marker marker = mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
 										.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+								markerHolder.get(dataSnapshot.getKey()).put(dining_key.toString(),marker);
 							}
-						}
-						catch (Exception e){
+						} catch (Exception e) {
 
 						}
+					}
+				}
+				// check is there any deleted dining
+				HashMap<String, Marker> now_markers = markerHolder.get(dataSnapshot.getKey());
+				Set set_check = now_markers.entrySet();
+				Iterator ppp = set_check.iterator();
+				while (ppp.hasNext()){
+					Map.Entry entry_c = (Map.Entry) ppp.next();
+					String marker_key =	entry_c.getKey().toString();
+					if (!dining_info.containsKey(marker_key)){
+						now_markers.get(marker_key).remove();
 					}
 				}
 			}
@@ -260,33 +283,32 @@ public class MainActivity extends FragmentActivity implements
 				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
 				//get all users in users
 				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
-				HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
-				HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+				HashMap<String, Object> start_info = (HashMap<String, Object>) user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>) start_info.get("dining");
 
 				// go through all dining information in dining_info
 				Set set_d = dining_info.entrySet();
 				Iterator pp_d = set_d.iterator();
-				while (pp_d.hasNext()){
-					Map.Entry entry_d = (Map.Entry)pp_d.next();
+				while (pp_d.hasNext()) {
+					Map.Entry entry_d = (Map.Entry) pp_d.next();
 					Object dining_key = entry_d.getKey();
-					if (!dining_key.equals("initial")){
+					if (!dining_key.equals("initial")) {
 						Object dining = dining_info.get(dining_key);
-						HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining;
+						HashMap<String, Object> dining_activity = (HashMap<String, Object>) dining;
 
 						// check if the date is valid
-						SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						SimpleDateFormat time_trans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						try {
 							Date timeset = time_trans.parse(dining_key.toString());
 							Calendar time_set = Calendar.getInstance();
 							time_set.setTime(timeset);
 							Calendar time_now = new GregorianCalendar();
-							if (time_set.after(time_now)){
-								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
+							if (time_set.after(time_now)) {
+								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()), Double.parseDouble(dining_activity.get("locationY").toString()));
 								mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
 										.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 							}
-						}
-						catch (Exception e){
+						} catch (Exception e) {
 
 						}
 					}
@@ -298,33 +320,32 @@ public class MainActivity extends FragmentActivity implements
 				Map<String, Objects> users = dataSnapshot.getValue(HashMap.class);
 				//get all users in users
 				HashMap<String, Object> user_info = dataSnapshot.getValue(HashMap.class);
-				HashMap<String, Object> start_info = (HashMap<String, Object>)user_info.get("startInfo");
-				HashMap<String, Object> dining_info = (HashMap<String, Object>)start_info.get("dining");
+				HashMap<String, Object> start_info = (HashMap<String, Object>) user_info.get("startInfo");
+				HashMap<String, Object> dining_info = (HashMap<String, Object>) start_info.get("dining");
 
 				// go through all dining information in dining_info
 				Set set_d = dining_info.entrySet();
 				Iterator pp_d = set_d.iterator();
-				while (pp_d.hasNext()){
-					Map.Entry entry_d = (Map.Entry)pp_d.next();
+				while (pp_d.hasNext()) {
+					Map.Entry entry_d = (Map.Entry) pp_d.next();
 					Object dining_key = entry_d.getKey();
-					if (!dining_key.equals("initial")){
+					if (!dining_key.equals("initial")) {
 						Object dining = dining_info.get(dining_key);
-						HashMap<String, Object> dining_activity = (HashMap<String, Object>)dining;
+						HashMap<String, Object> dining_activity = (HashMap<String, Object>) dining;
 
 						// check if the date is valid
-						SimpleDateFormat time_trans= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						SimpleDateFormat time_trans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						try {
 							Date timeset = time_trans.parse(dining_key.toString());
 							Calendar time_set = Calendar.getInstance();
 							time_set.setTime(timeset);
 							Calendar time_now = new GregorianCalendar();
-							if (time_set.after(time_now)){
-								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()),Double.parseDouble(dining_activity.get("locationY").toString()));
+							if (time_set.after(time_now)) {
+								LatLng latLng_dining = new LatLng(Double.parseDouble(dining_activity.get("locationX").toString()), Double.parseDouble(dining_activity.get("locationY").toString()));
 								mMap.addMarker(new MarkerOptions().position(latLng_dining).title(dataSnapshot.getKey().toString()).snippet("Participants" + dining_activity.get("maximum_guests"))
 										.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 							}
-						}
-						catch (Exception e){
+						} catch (Exception e) {
 
 						}
 					}
@@ -337,8 +358,12 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 		Button button1 = (Button)this.findViewById(R.id.dining);
+		//set transparency for button1
+		button1.getBackground().setAlpha(170);
 		ImageButton button2 = (ImageButton)this.findViewById(R.id.profile);
 		Button button3 = (Button)this.findViewById(R.id.invitation);
+		// set transparency for button3
+		button3.getBackground().setAlpha(170);
 		
 		button1.setOnClickListener(new View.OnClickListener() {
 			
