@@ -25,6 +25,7 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -52,6 +53,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
@@ -85,12 +87,29 @@ public class MainActivity extends FragmentActivity implements
 
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map);
+		//get the "get my location"buttom and move it to the button
+		View mapView = mapFragment.getView();
+		if (mapView != null &&
+				mapView.findViewById(1) != null) {
+			View locationButton = ((View) mapView.findViewById(1).getParent()).findViewById(2);
+			RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+					locationButton.getLayoutParams();
+
+			// position on right bottom
+			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+			layoutParams.setMargins(0, 0, 30, 30);
+		}
+
+
 		mMap = mapFragment.getMap();
-		mMap.getUiSettings().setZoomControlsEnabled(true);
+		//mMap.getUiSettings().setZoomControlsEnabled(true);
+
 		mMap.getUiSettings().setRotateGesturesEnabled(true);
 		mMap.getUiSettings().setScrollGesturesEnabled(true);
-
+		mMap.getUiSettings().setZoomGesturesEnabled(true);
 		mMap.setMyLocationEnabled(true);
+
 		mMap.setOnMarkerClickListener(this);
 		mMap.setOnInfoWindowClickListener(this);
 
@@ -99,7 +118,7 @@ public class MainActivity extends FragmentActivity implements
 
 
 		// Getting the name of the best provider
-		String provider = locationManager.GPS_PROVIDER;
+		String provider = locationManager.NETWORK_PROVIDER;
 
 		// Getting Current Location
 		Location lastlocation = locationManager.getLastKnownLocation(provider);
